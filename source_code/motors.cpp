@@ -1,6 +1,6 @@
 #include "motors.h"
 
-int vel = 100;
+int vel = 0;
 
 int velD = 0;
 int velI = 0;

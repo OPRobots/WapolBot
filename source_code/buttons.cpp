@@ -1,5 +1,5 @@
 #include "buttons.h"
-#include "../leds/leds.h"
+#include "leds.h"
 
 
 int buttonState = 0; 

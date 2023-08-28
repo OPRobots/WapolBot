@@ -1,7 +1,7 @@
 #include "estrategias.h"
-#include "../motors/motors.h"
-#include "../sensors/sharp/sharps.h"
-#include "../sensors/qre1113/qre1113.h"
+#include "motors.h"
+#include "sharps.h"
+#include "qre1113.h"
 
 void estrategiaSetup(){
     setVelD(getVel());
