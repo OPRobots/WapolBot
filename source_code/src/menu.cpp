@@ -1,7 +1,7 @@
 #include "menu.h"
-#include "../leds/leds.h"
-#include "../buttons/buttons.h"
-#include "../estrategias/estrategias.h"
+#include "leds.h"
+#include "buttons.h"
+#include "estrategias.h"
 
 int option = -1;
 int position = 1;
