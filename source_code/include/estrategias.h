@@ -2,10 +2,11 @@
 #define ESTRATEGIAS_H
 #include <Arduino.h>
 
-void estrategiaMirarAdelante();
 void estrategiaMirarAtras();
 void estrategiaMirarLadoDerecha();
 void estrategiaMirarLadoIzquierda();
 void estrategiaCaja();
+void estrategiaRadar();
+void estrategiaBase();
 
 #endif

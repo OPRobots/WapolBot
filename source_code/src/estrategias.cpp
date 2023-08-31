@@ -13,45 +13,41 @@ void estrategiaSetup() {
 }
 
 void estrategiaBase() {
-    while (true) {
-        if (qre1113IzquierdoBlanco() || qre1113DerechoBlanco()) {
-            motoresStop();
-            if (qre1113Blancos()) {
-                motoresAtras();
-                delay(100);
-                motoresGirar180();
-            } else if (qre1113IzquierdoBlanco()) {
-                motoresGirar90Derecha();
-            } else if (qre1113DerechoBlanco()) {
-                motoresGirar90Izquierda();
-            }
-        } else {
-            doPid();
+    if (qre1113IzquierdoBlanco() || qre1113DerechoBlanco()) {
+        motoresStop();
+        if (qre1113Blancos()) {
+            motoresAtras();
+            delay(100);
+            motoresGirar180();
+        } else if (qre1113IzquierdoBlanco()) {
+            motoresGirar90Derecha();
+        } else if (qre1113DerechoBlanco()) {
+            motoresGirar90Izquierda();
         }
+    } else {
+        doPid();
     }
 }
 
-void estrategiaMirarAdelante() { estrategiaBase(); }
-
 void estrategiaMirarAtras() {
     motoresGirar180();
-    estrategiaBase();
 }
 
 void estrategiaMirarLadoDerecha() {
     motoresGirar90Derecha();
-    estrategiaBase();
 }
 
 void estrategiaMirarLadoIzquierda() {
     motoresGirar90Izquierda();
-    estrategiaBase();
 }
 
 void estrategiaCaja() {
     motoresAdelante();
     delay(1500);
-    estrategiaBase();
+}
+
+void estrategiaRadar(){
+    dissableSpeedPid();
 }
 
 /*

@@ -14,11 +14,11 @@ void setup() {
   motorsSetup();
   buttonsSetup();
   pidSetup();
+  setVelD(getVel());
+  setVelI(getVel());
 }
 
 // runs forever
 void loop() { 
-  setVelD(getVel());
-  setVelI(getVel());
   menu1();
 }

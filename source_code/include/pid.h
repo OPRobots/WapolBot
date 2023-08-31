@@ -28,16 +28,17 @@ extern unsigned long millisPID;
 extern int tiempoPID;
 
 extern bool prints;
+extern bool noSpeed;
 
 extern int lastSeen;
 
 void pidSetup();
 void enablePrintsPid();
+void dissableSpeedPid();
 void doPid();
 int proporcionalPesos();
 int proporcionalSimple();
 void movimiento(int pos, int correccion, int velI, int velD);
-void movimientoPrints(int pos, int correccion, int velI, int velD);
 int limitSpeed(int speed);
 
 #endif

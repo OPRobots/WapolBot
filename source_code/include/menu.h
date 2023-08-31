@@ -2,7 +2,7 @@
 #define MENU_H
 #include <Arduino.h>
 
-extern int option;
+extern bool inMenu;
 extern int position;
 
 void menu1();

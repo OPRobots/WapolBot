@@ -19,12 +19,15 @@ unsigned long millisPID = 0;
 int tiempoPID = 10;
 
 bool prints = false;
+bool speed = true;
 
 int lastSeen = 0;
 
 void pidSetup() { millisPID = millis(); }
 
 void enablePrintsPid() { prints = true; }
+
+void dissableSpeedPid() { speed = false; }
 
 void doPid() {
     if (millis() >= millisPID + tiempoPID) {
@@ -36,14 +39,8 @@ void doPid() {
 
         posicion_anterior = posicion;
 
-        if (!prints) {
-            movimiento(posicion, correccion, limitSpeed(velocidad + correccion),
-                       limitSpeed(velocidad - correccion));
-        } else {
-            movimientoPrints(posicion, correccion,
-                             limitSpeed(velocidad + correccion),
-                             limitSpeed(velocidad - correccion));
-        }
+        movimiento(posicion, correccion, limitSpeed(velocidad + correccion),
+                   limitSpeed(velocidad - correccion));
 
         millisPID = millis();
     }
@@ -119,32 +116,26 @@ int proporcionalSimple() {
 void movimiento(int pos, int correccion, int velI, int velD) {
     setVelI(abs(velI));
     setVelD(abs(velD));
-    if (velI > 0 && velD < 0) {
-        motoresGiroDerechaCerrado();
-    } else if (velI < 0 && velD > 0) {
-        motoresGiroIzquierdaCerrado();
-    } else {
-        motoresAdelante();
+    if (prints) {
+        Serial.print(" Posicion: ");
+        Serial.print(pos);
+        Serial.print("\t Correccion: ");
+        Serial.print(correccion);
+        Serial.print("\t velocidades - Izq ");
+        Serial.print(velI);
+        Serial.print("\t - Der ");
+        Serial.println(velD);
     }
-}
-
-void movimientoPrints(int pos, int correccion, int velI, int velD) {
-    setVelI(abs(velI));
-    setVelD(abs(velD));
-    Serial.print(" Posicion: ");
-    Serial.print(pos);
-    Serial.print("\t Correccion: ");
-    Serial.print(correccion);
-    Serial.print("\t velocidades - Izq ");
-    Serial.print(velI);
-    Serial.print("\t - Der ");
-    Serial.println(velD);
     if (velI > 0 && velD < 0) {
         motoresGiroDerechaCerrado();
     } else if (velI < 0 && velD > 0) {
         motoresGiroIzquierdaCerrado();
     } else {
-        motoresAdelante();
+        if (speed) {
+            motoresAdelante();
+        } else {
+            motoresStop();
+        }
     }
 }
 

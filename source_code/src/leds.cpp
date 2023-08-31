@@ -93,6 +93,7 @@ void ledsLoading(uint8_t val){
   digitalWrite(ledLeft, val);
   digitalWrite(ledUp, val);
   digitalWrite(ledRight, val);
+  digitalWrite(ledGreen, val);
 }
 
 void ledsCuentaAtras(){
