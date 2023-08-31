@@ -6,12 +6,14 @@
 #include "buttons.h"
 #include "sharps.h"
 #include "qre1113.h"
+#include "pid.h"
 
 // runs once
 void setup() {
   ledsSetup();
   motorsSetup();
   buttonsSetup();
+  pidSetup();
 }
 
 // runs forever
