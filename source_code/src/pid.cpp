@@ -19,15 +19,20 @@ unsigned long millisPID = 0;
 int tiempoPID = 10;
 
 bool prints = false;
-bool speed = true;
+bool speedActive = true;
 
 int lastSeen = 0;
 
-void pidSetup() { millisPID = millis(); }
+void pidSetup() { 
+    millisPID = millis(); 
+    velocidad = getVel();
+}
 
 void enablePrintsPid() { prints = true; }
 
-void dissableSpeedPid() { speed = false; }
+void enableSpeedPid() { speedActive = true; }
+
+void dissableSpeedPid() { speedActive = false; }
 
 void doPid() {
     if (millis() >= millisPID + tiempoPID) {
@@ -38,9 +43,22 @@ void doPid() {
         correccion = ((kp * proporcional) + (kd * derivada));
 
         posicion_anterior = posicion;
-
-        movimiento(posicion, correccion, limitSpeed(velocidad + correccion),
+        
+        if (proporcional == 0) {
+            velocidad += 2;
+        } else if (proporcional > 75 || proporcional < 75) {
+            velocidad = getVelBase();
+        }
+        if(speedActive){
+            Serial.println("ENTRO MENU pid TRUE");
+            movimiento(posicion, correccion, limitSpeed(velocidad + correccion),
                    limitSpeed(velocidad - correccion));
+        }else{
+            Serial.println("ENTRO MENU pid FALSE");
+            movimiento(posicion, correccion, limitSpeed(correccion),
+                   limitSpeed(correccion * -1));
+        }
+        
 
         millisPID = millis();
     }
@@ -114,6 +132,7 @@ int proporcionalSimple() {
 }
 
 void movimiento(int pos, int correccion, int velI, int velD) {
+    
     setVelI(abs(velI));
     setVelD(abs(velD));
     if (prints) {
@@ -131,7 +150,7 @@ void movimiento(int pos, int correccion, int velI, int velD) {
     } else if (velI < 0 && velD > 0) {
         motoresGiroIzquierdaCerrado();
     } else {
-        if (speed) {
+        if (speedActive) {
             motoresAdelante();
         } else {
             motoresStop();

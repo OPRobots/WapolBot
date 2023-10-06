@@ -48,6 +48,9 @@ void estrategiaCaja() {
 
 void estrategiaRadar(){
     dissableSpeedPid();
+    while(true){
+        doPid();
+    }
 }
 
 /*

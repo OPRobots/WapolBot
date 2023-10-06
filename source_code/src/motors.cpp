@@ -1,6 +1,7 @@
 #include "motors.h"
 
-int vel = 100;
+int vel = 50;
+int velocidad_base = 50;
 
 int velD = 0;
 int velI = 0;
@@ -31,8 +32,13 @@ int getVelD(){
 int getVelI(){
     return velI;
 }
+
 int getVel(){
     return vel;
+}
+
+int getVelBase(){
+    return velocidad_base;
 }
 
 void motorDerechoAdelante(){
