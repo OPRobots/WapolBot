@@ -4,6 +4,10 @@
 #include "pid.h"
 #include "qre1113.h"
 #include "sharps.h"
+#include "leds.h"
+#include "buttons.h"
+
+bool near = false;
 
 void estrategiaSetup() {
     setVelD(getVel());
@@ -50,6 +54,72 @@ void estrategiaRadar(){
     dissableSpeedPid();
     while(true){
         doPid();
+    }
+}
+
+void estrategiaSharps(){
+    while(true){
+        if (buttonsLeftPressed()) {
+            near = !near;
+            delay(200);
+        }
+        if(near){
+            ledsGreen(HIGH);
+            if(sharpIzquierdoCerca()){
+                ledsLeft(HIGH);
+            }else{
+                ledsLeft(LOW);
+            }
+            if(sharpCentroCerca()){
+                ledsUp(HIGH);
+            }else{
+                ledsUp(LOW);
+            }
+            if(sharpDerechoCerca()){
+                ledsRight(HIGH);
+            }else{
+                ledsRight(LOW);
+            }
+        }else{
+            ledsGreen(LOW);
+            if(sharpIzquierdoDetectado()){
+                ledsLeft(HIGH);
+            }else{
+                ledsLeft(LOW);
+            }
+            if(sharpCentroDetectado()){
+                ledsUp(HIGH);
+            }else{
+                ledsUp(LOW);
+            }
+            if(sharpDerechoDetectado()){
+                ledsRight(HIGH);
+            }else{
+                ledsRight(LOW);
+            }
+        }
+        Serial.print("Distancia: ");
+        Serial.print(sharpIzquierdoDistancia());
+        Serial.print(" - ");
+        Serial.print(sharpCentroDistancia());
+        Serial.print(" - ");
+        Serial.print(sharpDerechoDistancia());
+        Serial.println(" cm");
+    }
+}
+
+void estrategiaQre1113(){
+    while(true){
+        if(qre1113IzquierdoBlanco()){
+            ledsLeft(HIGH);
+        }else{
+            ledsLeft(LOW);
+        }
+        if(qre1113DerechoBlanco()){
+            ledsRight(HIGH);
+        }else{
+            ledsRight(LOW);
+        }
     }
 }
 

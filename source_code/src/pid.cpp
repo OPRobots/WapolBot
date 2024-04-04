@@ -1,8 +1,8 @@
 #include "pid.h"
 
 // Variables PID
-float kp = 0.8;
-float kd = 1;
+float kp = 0.8; //0.8;
+float kd = 1; //1;
 // float ki = 0;
 
 int posicion = 0;
@@ -44,22 +44,19 @@ void doPid() {
 
         posicion_anterior = posicion;
         
-        if (proporcional == 0) {
+        if (proporcional >=-50 && proporcional <=50 && sharpCentroCerca()) {
             velocidad += 2;
-        } else if (proporcional > 75 || proporcional < 75) {
+        } else if (proporcional <-50 || proporcional >50) {
             velocidad = getVelBase();
         }
         if(speedActive){
-            Serial.println("ENTRO MENU pid TRUE");
             movimiento(posicion, correccion, limitSpeed(velocidad + correccion),
                    limitSpeed(velocidad - correccion));
         }else{
-            Serial.println("ENTRO MENU pid FALSE");
             movimiento(posicion, correccion, limitSpeed(correccion),
                    limitSpeed(correccion * -1));
         }
         
-
         millisPID = millis();
     }
 }
@@ -76,7 +73,7 @@ int proporcionalPesos() {
     } else if ((i < margin) && (c < margin) && !(d < margin)) {
         return -(70 - i - c) * 50 / 70;
     } else if (!(i < margin) && (c < margin) && !(d < margin)) {
-        return 50;
+        return 0;
     } else if (!(i < margin) && (c < margin) && (d < margin)) {
         return (70 - c - d) * 50 / 70;
     } else if (!(i < margin) && !(c < margin) && (d < margin)) {
@@ -119,11 +116,12 @@ int proporcionalSimple() {
     }
 
     else if ((!i && !c && !d)) {
-        if (lastSeen == 1) {
+        /*if (lastSeen == 1) {
             return 150;
         } else {
             return -150;
-        }
+        }*/
+        return 0;
     } else if (i && c && d) {
         return 0;
     } else {

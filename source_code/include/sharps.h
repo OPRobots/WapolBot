@@ -30,6 +30,9 @@ bool sharpCentroCerca();
 bool sharpIzquierdoCerca();
 bool sharpDerechoCerca();
 
+void filtro_paso_bajo_1();
+void filtro_media();
+
 
 #endif
 

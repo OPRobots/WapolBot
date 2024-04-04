@@ -35,6 +35,17 @@ void menu1() {
             case 6:
                 ledsLoading(HIGH);
                 break;
+            case 7:
+                ledsLoading(LOW);
+                ledsUpArrow(HIGH);
+                ledsGreen(HIGH);
+
+                break;
+            case 8:
+                ledsLoading(LOW);
+                ledsLeftRight(HIGH);
+                ledsGreen(HIGH);
+                break;
 
             default:
                 break;
@@ -43,12 +54,13 @@ void menu1() {
         if (buttonsLeftPressed()) {
             position++;
             delay(200);
-            if (position == 7) {
+            if (position == 9) {
                 position = 1;
             }
         }
         if (buttonsRightPressed()) {
             ledsCuentaAtras();
+            ledsLoading(LOW);
             switch (position) {
                 case 1:
                     ledsBuiltIn(HIGH);
@@ -66,11 +78,22 @@ void menu1() {
                     estrategiaMirarLadoIzquierda();
                     break;
                 case 5:
+                    ledsBuiltIn(HIGH);
                     estrategiaCaja();
                     break;
                 case 6:
+                    ledsBuiltIn(HIGH);
                     estrategiaRadar();
                     break;
+                case 7:
+                    ledsBuiltIn(HIGH);
+                    estrategiaSharps();
+                    break;
+                case 8:
+                    ledsBuiltIn(HIGH);
+                    estrategiaQre1113();
+                    break;
+
                 default:
                     break;
             }
