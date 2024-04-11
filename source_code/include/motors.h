@@ -23,6 +23,8 @@ int getVelD();
 int getVelI();
 int getVel();
 
+int getVelBase();
+
 void motorDerechoAdelante();
 void motorIzquierdoAdelante();
 

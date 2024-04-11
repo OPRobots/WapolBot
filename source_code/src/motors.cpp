@@ -2,6 +2,9 @@
 
 int vel = 100;
 
+
+int velocidad_base = 100;
+
 int velD = 0;
 int velI = 0;
 
@@ -33,6 +36,11 @@ int getVelI(){
 }
 int getVel(){
     return vel;
+}
+
+
+int getVelBase(){
+    return velocidad_base;
 }
 
 void motorDerechoAdelante(){

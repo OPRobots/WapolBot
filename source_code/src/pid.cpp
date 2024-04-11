@@ -39,6 +39,12 @@ void doPid() {
 
         posicion_anterior = posicion;
 
+        if (proporcional >=-50 && proporcional <=50 && sharpCentroCerca()) {
+            velocidad += 2;
+        } else if (proporcional <-50 || proporcional >50) {
+            velocidad = getVelBase();
+        }
+
         movimiento(posicion, correccion, limitSpeed(velocidad + correccion),
                    limitSpeed(velocidad - correccion));
 
