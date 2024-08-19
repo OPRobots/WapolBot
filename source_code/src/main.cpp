@@ -16,9 +16,12 @@ void setup() {
   pidSetup();
   setVelD(getVel());
   setVelI(getVel());
+  
+  Serial.begin(9600);
 }
 
 // runs forever
-void loop() { 
+void loop() {
   menu1();
+
 }
