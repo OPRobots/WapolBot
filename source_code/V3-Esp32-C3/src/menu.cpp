@@ -112,7 +112,10 @@ void menu1() {
             inMenu = false;
         }
     }else{
-        if(is_starting()){
+        if (!is_starting()) {
+            motoresStop();
+            set_starting(false);
+        }else{
             estrategiaBase();
         }
     }

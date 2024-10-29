@@ -18,6 +18,9 @@ int velocidad = 60;
 unsigned long millisPID = 0;
 int tiempoPID = 10;
 
+int tiempoSusto = 1000;
+int millisSusto = 0;
+
 bool prints = false;
 bool speedActive = true;
 
@@ -26,6 +29,8 @@ int lastSeen = 0;
 void pidSetup() { 
     millisPID = millis(); 
     velocidad = getVel();
+
+    millisSusto = millis();
 }
 
 void enablePrintsPid() { prints = true; }
@@ -43,21 +48,32 @@ void doPid() {
         correccion = ((kp * proporcional) + (kd * derivada));
 
         posicion_anterior = posicion;
-        /*// no se usa cuando tengo motoressusto
-        if (proporcional >=-50 && proporcional <=50 && sharpCentroCerca()) {
+        if (proporcional == 0 && sharpCentroCerca()) {
             velocidad += 2;
-        } else if (proporcional <-50 || proporcional >50) {
+            set_led(RGB_TOP, 0, 0, 255);
+        } else {
             velocidad = getVelBase();
         }
         if(speedActive){
-            movimiento(posicion, correccion, limitSpeed(velocidad + correccion),
-                   limitSpeed(velocidad - correccion));
-        }else{*/
+            if(posicion == 10 || posicion == -10){
+                motoresStop();
+            }else {
+                movimiento(posicion, correccion, limitSpeed(velocidad + correccion),
+                    limitSpeed(velocidad - correccion));
+            }
+        }else{
             movimiento(posicion, correccion, limitSpeed(correccion),
                    limitSpeed(correccion * -1));
-        //}
+        }
         
         millisPID = millis();
+    }
+    
+    if (millis() >= millisSusto + tiempoSusto) {
+        if(posicion == 10 || posicion == -10){
+            motoresSusto();
+        }
+        millisSusto = millis();
     }
 }
 /*
@@ -99,6 +115,21 @@ int proporcionalSimple() {
     int i = sharpIzquierdoCerca();
     int d = sharpDerechoCerca();
 
+    if(i){
+        ledsLeft(HIGH);
+    }else{
+        ledsLeft(LOW);
+    }
+    if(c){
+        set_led(RGB_TOP, 255, 0, 0);
+    }else{
+        ledsUp(LOW);
+    }
+    if(d){
+        ledsRight(HIGH);
+    }else{
+        ledsRight(LOW);
+    }
     if (i && !c && !d) {
         lastSeen = -1;
         return -100;
@@ -116,17 +147,16 @@ int proporcionalSimple() {
     }
 
     else if ((!i && !c && !d)) {
-        /*
         if (lastSeen == 1) {
-            return 100;
+            return 10;
         } else {
-            return -100;
-        }*/
-        return 0;
+            return -10;
+        }
+        return 5;
     } else if (i && c && d) {
-        return 0;
+        return 5;
     } else {
-        return 0;
+        return 5;
     }
 }
 
@@ -145,17 +175,12 @@ void movimiento(int pos, int correccion, int velI, int velD) {
         Serial.println(velD);
     }*/
     if (velI > 0 && velD < 0) {
-       motoresGiroDerechaCerrado();
+        motoresGiroDerechaCerrado();
     } else if (velI < 0 && velD > 0) {
-       motoresGiroIzquierdaCerrado();
+        motoresGiroIzquierdaCerrado();
     } else {
-        if (!speedActive) { //esto es a true de normal
-            //motoresAdelante(); //se sale, mejor poner susto
-            setVelI(getVelBase()*0.8);
-            setVelD(getVelBase()*0.8);
-            motoresSusto();
-            motoresStop();
-            delay(400);
+        if (speedActive) {
+            motoresAdelante();
         } else {
             motoresStop();
         }

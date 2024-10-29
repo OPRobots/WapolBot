@@ -28,7 +28,7 @@ void estrategiaBase() {
             }
         } else {
             filtro_sensores2();
-            dissableSpeedPid(); //esto sobra pero si no, se sale, toca buscar mejores motores xD
+            //dissableSpeedPid(); //esto sobra pero si no, se sale, toca buscar mejores motores xD
             doPid();
         }
     }else{

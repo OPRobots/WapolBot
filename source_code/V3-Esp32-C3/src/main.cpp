@@ -26,8 +26,6 @@ void setup() {
 
 void loop() {
 
-
-
   //test mando y leds
   /*
   clear_leds();
@@ -46,20 +44,22 @@ void loop() {
 
   
   //test motores
- /*
+  /*
   if(is_starting()){
-    motoresSusto();
+    //motoresGirar45Derecha();
+    //motoresGirar45Izquierda();
+    //motoresGirar90Derecha();
+    //motoresGirar90Izquierda();
+    motoresGirar180();
     delay(500);
   }else{
     motoresStop();
-  }*/
-  
-  
+  }
+  */
   
   //enablePrintsPid();
-
+  
   menu1();
-
 }
 
 

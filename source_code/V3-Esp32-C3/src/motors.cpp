@@ -25,8 +25,8 @@ void init_motors() {
 
 }
 
-int vel = 50;//60
-int velocidad_base = 50;//60
+int vel = 60;//60
+int velocidad_base = 60;//60
 
 int velD = 0;
 int velI = 0;
@@ -65,29 +65,29 @@ int getVelBase(){
 }
 
 void motorDerechoAtras(){
-    ledcWrite(PWM_MOTOR_RIGHT_A, PWM_MOTORS_MAX);
-    ledcWrite(PWM_MOTOR_RIGHT_B, PWM_MOTORS_MAX - (PWM_MOTORS_MAX * velD / 100));
+    ledcWrite(PWM_MOTOR_RIGHT_A, PWM_MOTORS_MAX - (PWM_MOTORS_MAX * velD / 100));
+    ledcWrite(PWM_MOTOR_RIGHT_B, PWM_MOTORS_MAX);
     //Serial.print("velD: ");
     //Serial.println(velD);
 }
 
 void motorIzquierdoAtras(){
-    ledcWrite(PWM_MOTOR_LEFT_A, PWM_MOTORS_MAX);
-    ledcWrite(PWM_MOTOR_LEFT_B, PWM_MOTORS_MAX - (PWM_MOTORS_MAX * velI / 100));
+    ledcWrite(PWM_MOTOR_LEFT_A, PWM_MOTORS_MAX - (PWM_MOTORS_MAX * velI / 100));
+    ledcWrite(PWM_MOTOR_LEFT_B, PWM_MOTORS_MAX);
     //Serial.print("velI: ");
     //Serial.println(velI);
 }
 
 void motorDerechoAdelante(){
-    ledcWrite(PWM_MOTOR_RIGHT_A, PWM_MOTORS_MAX - (PWM_MOTORS_MAX * velD / 100));
-    ledcWrite(PWM_MOTOR_RIGHT_B, PWM_MOTORS_MAX);
+    ledcWrite(PWM_MOTOR_RIGHT_A, PWM_MOTORS_MAX);
+    ledcWrite(PWM_MOTOR_RIGHT_B, PWM_MOTORS_MAX - (PWM_MOTORS_MAX * velD / 100));
     //Serial.print("-velD: ");
     //Serial.println(velD);
 }
 
 void motorIzquierdoAdelante(){
-    ledcWrite(PWM_MOTOR_LEFT_A, PWM_MOTORS_MAX - (PWM_MOTORS_MAX * velI / 100));
-    ledcWrite(PWM_MOTOR_LEFT_B, PWM_MOTORS_MAX);
+    ledcWrite(PWM_MOTOR_LEFT_A, PWM_MOTORS_MAX);
+    ledcWrite(PWM_MOTOR_LEFT_B, PWM_MOTORS_MAX - (PWM_MOTORS_MAX * velI / 100));
     //Serial.print("-velI: ");
     //Serial.println(velI);
 }
@@ -103,10 +103,8 @@ void motorDerechoStop(){
 }
 
 void motoresAdelante(){
-    //setVels(getVel()*0.8);
     motorDerechoAdelante();
     motorIzquierdoAdelante();
-    //setVels(getVel()/0.8);
 }
 
 void motoresAtras(){
@@ -139,35 +137,36 @@ void motoresGiroIzquierdaCerrado(){
 
 void motoresSusto(){
     motoresAdelante();
-    delay(90);
+    delay(30);
+    motoresStop();
 }
 
 void motoresGirar45Izquierda(){
     motoresGiroIzquierdaCerrado();
-    delay(130);
+    delay(180);
     motoresStop();
 }
 
 void motoresGirar45Derecha(){
     motoresGiroDerechaCerrado();
-    delay(120);
+    delay(200);
     motoresStop();
 }
 
 void motoresGirar90Izquierda(){
     motoresGiroIzquierdaCerrado();
-    delay(180);
+    delay(280);
     motoresStop();
 }
 
 void motoresGirar90Derecha(){
     motoresGiroDerechaCerrado();
-    delay(180);
+    delay(350);
     motoresStop();
 }
 
 void motoresGirar180(){
     motoresGiroIzquierdaCerrado();
-    delay(360);
+    delay(600);
     motoresStop();
 }
