@@ -67,7 +67,7 @@ void menu1() {
         }
         if (btn_state == BTN_LONG_PRESSED || is_starting()) {
             set_starting(true);
-            ledsCuentaAtras();
+            //ledsCuentaAtras();
             ledsLoading(LOW);
             switch (position) {
                 case 1:
