@@ -5,6 +5,7 @@
 #include "control.h"
 #include "pinout.h"
 #include "stdint.h"
+#include "leds.h"
 
 enum RC5_TRIGGER {
   RC5_TRIGGER_FALLING,
@@ -16,5 +17,8 @@ enum RC5_TRIGGER {
 void rc5_init(void);
 void rc5_register(enum RC5_TRIGGER trigger);
 void rc5_isr(void);
+
+bool rc5_is_prog_done(void);
+void rc5_reset_prog_done(void);
 
 #endif

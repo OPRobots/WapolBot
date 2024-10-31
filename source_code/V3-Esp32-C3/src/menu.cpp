@@ -65,6 +65,13 @@ void menu1() {
                 position = 1;
             }
         }
+        if(rc5_is_prog_done()){
+            long ms = millis();
+            while(millis()-ms < 1000){
+            blink_led(RGB_TOP, 0, 0, 0, 50);
+            }
+            rc5_reset_prog_done();
+        }
         if (btn_state == BTN_LONG_PRESSED || is_starting()) {
             set_starting(true);
             //ledsCuentaAtras();
