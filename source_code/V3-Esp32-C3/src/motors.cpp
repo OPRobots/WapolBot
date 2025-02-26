@@ -64,28 +64,28 @@ int getVelBase(){
     return velocidad_base;
 }
 
-void motorDerechoAtras(){
-    ledcWrite(PWM_MOTOR_RIGHT_A, PWM_MOTORS_MAX - (PWM_MOTORS_MAX * velD / 100));
-    ledcWrite(PWM_MOTOR_RIGHT_B, PWM_MOTORS_MAX);
+void motorIzquierdoAdelante(){
+    ledcWrite(PWM_MOTOR_RIGHT_A, PWM_MOTORS_MAX);
+    ledcWrite(PWM_MOTOR_RIGHT_B, PWM_MOTORS_MAX - (PWM_MOTORS_MAX * velD / 100));
     //Serial.print("velD: ");
     //Serial.println(velD);
 }
 
-void motorIzquierdoAtras(){
+void motorDerechoAdelante(){
     ledcWrite(PWM_MOTOR_LEFT_A, PWM_MOTORS_MAX - (PWM_MOTORS_MAX * velI / 100));
     ledcWrite(PWM_MOTOR_LEFT_B, PWM_MOTORS_MAX);
     //Serial.print("velI: ");
     //Serial.println(velI);
 }
 
-void motorDerechoAdelante(){
-    ledcWrite(PWM_MOTOR_RIGHT_A, PWM_MOTORS_MAX);
-    ledcWrite(PWM_MOTOR_RIGHT_B, PWM_MOTORS_MAX - (PWM_MOTORS_MAX * velD / 100));
+void motorIzquierdoAtras(){
+    ledcWrite(PWM_MOTOR_RIGHT_A, PWM_MOTORS_MAX - (PWM_MOTORS_MAX * velD / 100));
+    ledcWrite(PWM_MOTOR_RIGHT_B, PWM_MOTORS_MAX);
     //Serial.print("-velD: ");
     //Serial.println(velD);
 }
 
-void motorIzquierdoAdelante(){
+void motorDerechoAtras(){
     ledcWrite(PWM_MOTOR_LEFT_A, PWM_MOTORS_MAX);
     ledcWrite(PWM_MOTOR_LEFT_B, PWM_MOTORS_MAX - (PWM_MOTORS_MAX * velI / 100));
     //Serial.print("-velI: ");
@@ -143,30 +143,30 @@ void motoresSusto(){
 
 void motoresGirar45Izquierda(){
     motoresGiroIzquierdaCerrado();
-    delay(180);
+    delay(90);
     motoresStop();
 }
 
 void motoresGirar45Derecha(){
     motoresGiroDerechaCerrado();
-    delay(200);
+    delay(90);
     motoresStop();
 }
 
 void motoresGirar90Izquierda(){
     motoresGiroIzquierdaCerrado();
-    delay(280);
+    delay(140);
     motoresStop();
 }
 
 void motoresGirar90Derecha(){
     motoresGiroDerechaCerrado();
-    delay(350);
+    delay(140);
     motoresStop();
 }
 
 void motoresGirar180(){
     motoresGiroIzquierdaCerrado();
-    delay(600);
+    delay(260);
     motoresStop();
 }

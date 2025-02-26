@@ -44,22 +44,26 @@ void loop() {
 
   
   //test motores
-  /*
+  
   if(is_starting()){
+    motorIzquierdoAdelante();
+    //motorDerechoAtras();
+    //motorIzquierdoAtras();
+    motorDerechoAdelante();
     //motoresGirar45Derecha();
     //motoresGirar45Izquierda();
     //motoresGirar90Derecha();
     //motoresGirar90Izquierda();
-    motoresGirar180();
+    //motoresGirar180();
     delay(500);
   }else{
     motoresStop();
   }
-  */
+  
   
   //enablePrintsPid();
   
-  menu1();
+  //menu1();
 }
 
 
