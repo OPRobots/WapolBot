@@ -18,7 +18,7 @@ void setup() {
   setVelD(getVel());
   setVelI(getVel());
   
-  //Serial.begin(9600);
+  Serial.begin(9600);
   near = false;
 }
 
@@ -38,18 +38,18 @@ void loop() {
   
   //test sensores
   
-  //filtro_sensores();
-  //print_sensores_2();
+  //filtro_sensores2();
+  //print_sensores_1();
   
 
   
   //test motores
-  
+  /*
   if(is_starting()){
-    motorIzquierdoAdelante();
+    //motorIzquierdoAdelante();
     //motorDerechoAtras();
     //motorIzquierdoAtras();
-    motorDerechoAdelante();
+    //motorDerechoAdelante();
     //motoresGirar45Derecha();
     //motoresGirar45Izquierda();
     //motoresGirar90Derecha();
@@ -59,11 +59,12 @@ void loop() {
   }else{
     motoresStop();
   }
+  */
   
   
   //enablePrintsPid();
   
-  //menu1();
+  menu1();
 }
 
 

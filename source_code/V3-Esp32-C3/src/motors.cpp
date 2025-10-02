@@ -143,13 +143,13 @@ void motoresSusto(){
 
 void motoresGirar45Izquierda(){
     motoresGiroIzquierdaCerrado();
-    delay(90);
+    delay(85);
     motoresStop();
 }
 
 void motoresGirar45Derecha(){
     motoresGiroDerechaCerrado();
-    delay(90);
+    delay(80);
     motoresStop();
 }
 

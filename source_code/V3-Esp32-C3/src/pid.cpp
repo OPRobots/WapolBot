@@ -26,6 +26,13 @@ bool speedActive = true;
 
 int lastSeen = 0;
 
+unsigned long tiempoDeteccion = 0;
+unsigned long ultimoIncremento = 0;
+bool rivalDetectado = false;
+int incremento = 2;
+unsigned long retardo = 300;
+unsigned long pasoTiempo = 100;
+
 void pidSetup() { 
     millisPID = millis(); 
     velocidad = getVel();
@@ -48,22 +55,42 @@ void doPid() {
         correccion = ((kp * proporcional) + (kd * derivada));
 
         posicion_anterior = posicion;
+        
         if (proporcional == 0 && sharpCentroCerca()) {
-            velocidad += 2;
+            if (!rivalDetectado) {
+                rivalDetectado = true;
+                tiempoDeteccion = millis();
+                setVel(getVelBase());  
+            }
+
+            if (millis() - tiempoDeteccion > retardo) {
+                if (millis() - ultimoIncremento > pasoTiempo) {
+                    setVel(getVel() + incremento);
+                    ultimoIncremento = millis();
+                }
+            }
+
             set_led(RGB_TOP, 0, 0, 255);
+
         } else {
-            velocidad = getVelBase();
+            rivalDetectado = false;
+            setVel(getVelBase()); 
         }
+
         if(speedActive){
             if(posicion == 10 || posicion == -10){
                 motoresStop();
             }else {
-                movimiento(posicion, correccion, limitSpeed(velocidad + correccion),
-                    limitSpeed(velocidad - correccion));
+                int vel = getVel();
+                if (!rivalDetectado && proporcional == 0) {
+                    vel = getVelBase() - 20; 
+                }
+                movimiento(posicion, correccion, limitSpeed(vel - correccion),
+                    limitSpeed(vel + correccion));
             }
         }else{
-            movimiento(posicion, correccion, limitSpeed(correccion),
-                   limitSpeed(correccion * -1));
+            movimiento(posicion, correccion, limitSpeed(correccion * -1),
+                   limitSpeed(correccion));
         }
         
         millisPID = millis();

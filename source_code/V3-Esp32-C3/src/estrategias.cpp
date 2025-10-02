@@ -19,12 +19,15 @@ void estrategiaBase() {
     if(is_starting()){
         if (qre1113IzquierdoBlanco() || qre1113DerechoBlanco()) {
             motoresStop();
+            velocidad = getVelBase();
             if (qre1113Blancos()) {
+                motoresAtras();
+                delay(80);
                 motoresGirar180();
             } else if (qre1113IzquierdoBlanco()) {
-                motoresGirar90Derecha();
+                motoresGirar45Izquierda();
             } else if (qre1113DerechoBlanco()) {
-                motoresGirar90Izquierda();
+                motoresGirar45Derecha();
             }
         } else {
             filtro_sensores2();
