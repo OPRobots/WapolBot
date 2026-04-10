@@ -195,22 +195,25 @@ void ledsLoading(uint8_t val){
 }
 
 void ledsCuentaAtras(){
-      ledsLoading(LOW);     
-      ledsGreen(LOW);   
-      ledsUp(HIGH);
-      delay(1000);
-      ledsUp(LOW);        
-      ledsLeft(HIGH);
-      delay(1000);
-      ledsLeft(LOW);         
-      ledsRight(HIGH);
-      delay(1000);
-      ledsRight(LOW);         
-      ledsLeftRight(HIGH);
-      delay(1000);
-      ledsLeftRight(LOW);
-      ledsLoading(HIGH);
-      delay(1000);
-      ledsGreen(HIGH);
+    static unsigned long step_ms = 0;
+    static uint8_t step = 0;
+
+    if (step == 0) {
+        ledsLoading(LOW);
+        ledsGreen(LOW);
+        ledsUp(HIGH);
+        step_ms = millis();
+        step = 1;
+        return;
+    }
+    if (millis() - step_ms < 1000) return;
+    step_ms = millis();
+    switch (step) {
+        case 1: ledsUp(LOW);         ledsLeft(HIGH);       step++; break;
+        case 2: ledsLeft(LOW);       ledsRight(HIGH);      step++; break;
+        case 3: ledsRight(LOW);      ledsLeftRight(HIGH);  step++; break;
+        case 4: ledsLeftRight(LOW);  ledsLoading(HIGH);    step++; break;
+        case 5: ledsGreen(HIGH);     step = 0; step_ms = 0; break;
+    }
 }
 

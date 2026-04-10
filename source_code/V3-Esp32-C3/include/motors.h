@@ -68,4 +68,7 @@ void motoresGirar90Derecha();
 void motoresGirar90Izquierda();
 void motoresGirar180();
 
+void motoresManiobra_begin(unsigned long durationMs);
+bool motoresManiobra_isActive();
+
 #endif // MOTORS_H

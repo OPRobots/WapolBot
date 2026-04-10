@@ -135,38 +135,53 @@ void motoresGiroIzquierdaCerrado(){
     motorIzquierdoAtras();
 }
 
+// --- Maniobra no bloqueante ---
+static unsigned long maniobra_start_ms = 0;
+static unsigned long maniobra_dur_ms = 0;
+static bool maniobra_running = false;
+
+void motoresManiobra_begin(unsigned long durationMs) {
+    maniobra_start_ms = millis();
+    maniobra_dur_ms = durationMs;
+    maniobra_running = true;
+}
+
+bool motoresManiobra_isActive() {
+    if (!maniobra_running) return false;
+    if (millis() - maniobra_start_ms >= maniobra_dur_ms) {
+        maniobra_running = false;
+        motoresStop();
+        return false;
+    }
+    return true;
+}
+
 void motoresSusto(){
     motoresAdelante();
-    delay(30);
-    motoresStop();
+    motoresManiobra_begin(30);
 }
 
 void motoresGirar45Izquierda(){
     motoresGiroIzquierdaCerrado();
-    delay(85);
-    motoresStop();
+    motoresManiobra_begin(85);
 }
 
 void motoresGirar45Derecha(){
     motoresGiroDerechaCerrado();
-    delay(80);
-    motoresStop();
+    motoresManiobra_begin(80);
 }
 
 void motoresGirar90Izquierda(){
     motoresGiroIzquierdaCerrado();
-    delay(140);
-    motoresStop();
+    motoresManiobra_begin(140);
 }
 
 void motoresGirar90Derecha(){
     motoresGiroDerechaCerrado();
-    delay(140);
-    motoresStop();
+    motoresManiobra_begin(140);
 }
 
 void motoresGirar180(){
     motoresGiroIzquierdaCerrado();
-    delay(260);
-    motoresStop();
+    motoresManiobra_begin(260);
 }

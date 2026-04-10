@@ -18,9 +18,6 @@ int velocidad = 60;
 unsigned long millisPID = 0;
 int tiempoPID = 10;
 
-int tiempoSusto = 1000;
-int millisSusto = 0;
-
 bool prints = false;
 bool speedActive = true;
 
@@ -33,11 +30,15 @@ int incremento = 2;
 unsigned long retardo = 300;
 unsigned long pasoTiempo = 100;
 
+
+unsigned long rivalLostMs = 0;
+int scanDirection = 1; // 1=derecha, -1=izquierda
+const unsigned long SCAN_DELAY_MS = 250;
+const int SCAN_VEL = 35;
+
 void pidSetup() { 
     millisPID = millis(); 
     velocidad = getVel();
-
-    millisSusto = millis();
 }
 
 void enablePrintsPid() { prints = true; }
@@ -47,6 +48,10 @@ void enableSpeedPid() { speedActive = true; }
 void dissableSpeedPid() { speedActive = false; }
 
 void doPid() {
+    if (motoresManiobra_isActive()) {
+        millisPID = millis();
+        return;
+    }
     if (millis() >= millisPID + tiempoPID) {
         posicion = proporcionalSimple();
 
@@ -79,8 +84,24 @@ void doPid() {
 
         if(speedActive){
             if(posicion == 10 || posicion == -10){
-                motoresStop();
+                // Congelar dirección de giro al perder rival
+                if (rivalLostMs == 0) {
+                    rivalLostMs = millis();
+                    scanDirection = (lastSeen >= 0) ? 1 : -1;
+                    motoresStop();
+                } else if (millis() - rivalLostMs >= SCAN_DELAY_MS) {
+                    setVelD(SCAN_VEL);
+                    setVelI(SCAN_VEL);
+                    if (scanDirection == 1) {
+                        motoresGiroDerechaCerrado();
+                    } else {
+                        motoresGiroIzquierdaCerrado();
+                    }
+                } else {
+                    motoresStop();
+                }
             }else {
+                rivalLostMs = 0;
                 int vel = getVel();
                 if (!rivalDetectado && proporcional == 0) {
                     vel = getVelBase() - 20; 
@@ -94,13 +115,6 @@ void doPid() {
         }
         
         millisPID = millis();
-    }
-    
-    if (millis() >= millisSusto + tiempoSusto) {
-        if(posicion == 10 || posicion == -10){
-            motoresSusto();
-        }
-        millisSusto = millis();
     }
 }
 /*
