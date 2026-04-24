@@ -8,6 +8,7 @@ bool inMenu = true;
 int position = 1;
 
 void menu1() {
+    static unsigned long rc5_feedback_ms = 0;
     if (inMenu) {
         BTN_STATES btn_state = get_btn_pressed_state();
         switch (position) {
@@ -60,17 +61,17 @@ void menu1() {
         // position = buttonsGetCount();
         if (btn_state == BTN_PRESSED) {
             position++;
-            delay(200);
             if (position == 10) {
                 position = 1;
             }
         }
         if(rc5_is_prog_done()){
-            long ms = millis();
-            while(millis()-ms < 1000){
+            if (rc5_feedback_ms == 0) rc5_feedback_ms = millis();
             blink_led(RGB_TOP, 0, 0, 0, 50);
+            if (millis() - rc5_feedback_ms >= 1000) {
+                rc5_reset_prog_done();
+                rc5_feedback_ms = 0;
             }
-            rc5_reset_prog_done();
         }
         if (btn_state == BTN_LONG_PRESSED || is_starting()) {
             set_starting(true);

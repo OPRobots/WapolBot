@@ -51,6 +51,9 @@ int sensor3_analog() {
 }
 
 void print_sensores_1() {
+  static unsigned long last_print1 = 0;
+  if (millis() - last_print1 < 500) return;
+  last_print1 = millis();
   if(analogRead(S_RIVAL_I) == 0){
     Serial.print(" ");
     Serial.println("no va");
@@ -72,11 +75,13 @@ void print_sensores_1() {
     Serial.print("\n");
 
   }
-  delay(500);
 }
 
 
 void print_sensores_2() {
+  static unsigned long last_print2 = 0;
+  if (millis() - last_print2 < 500) return;
+  last_print2 = millis();
   if(analogRead(S_RIVAL_I) == 0){
     Serial.print(" ");
     Serial.println("no va");
@@ -93,7 +98,6 @@ void print_sensores_2() {
     Serial.println(digitalRead(S_LINEA_D));
 
   }
-  delay(500);
 }
 
 
